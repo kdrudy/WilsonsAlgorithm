@@ -12,30 +12,31 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class WilsonsAlgorithm extends ApplicationAdapter {
 
     SpriteBatch batch;
-    int width = 100;
-    int height = 100;
-    Maze maze = new Maze(width, height);
+    int mazeWidth = 20;
+    int mazeHeight = 20;
+    Maze maze = new Maze(mazeWidth, mazeHeight);
+    Texture tex;
 
     Pixmap pixmap;
-    int cellSize = 600 / width / 2;
-    int cellPadding = cellSize / 2;
+    int cellSize = 2;
+    int cellPadding = 1;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-        pixmap = new Pixmap(600, 600, Format.RGBA8888);
+        pixmap = new Pixmap(mazeWidth*cellSize*(cellPadding*2), mazeHeight*cellSize*(cellPadding*2), Format.RGBA8888);
     }
 
     @Override
     public void render() {
         if (!maze.isComplete()) {
             maze.next();
+            tex = new Texture(generatePixmap());
         }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        Texture tex = new Texture(generatePixmap());
-        batch.draw(tex, 0, 0);
+        batch.draw(tex, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         batch.end();
     }

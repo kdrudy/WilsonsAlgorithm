@@ -15,6 +15,7 @@ import java.util.Stack;
  */
 public class Maze {
     List<Cell> maze = new ArrayList<>();
+    List<Cell> unused = new ArrayList<>();
     
     Stack<Cell> path = new Stack<>();
     int width, height;
@@ -29,7 +30,13 @@ public class Maze {
         int initialY = (int) (Math.random()*height);
         Cell initial = new Cell(initialX, initialY);
         maze.add(initial);
-        System.out.println("Initial Maze Point: " + initial.x + "," + initial.y);
+//        System.out.println("Initial Maze Point: " + initial.x + "," + initial.y);
+        for(int x = 0;x<width;x++) {
+            for(int y = 0;y<height;y++) {
+                unused.add(new Cell(x, y));
+            }
+        }
+        unused.remove(initial);
     }
     
     public boolean isComplete() {
@@ -39,13 +46,14 @@ public class Maze {
     public void next() {
         //When empty, choose a new starting point to draw from that's not in the maze
         if(path.isEmpty()) {
-            Cell newStart = null;
-            do {
-                int startX = (int) (Math.random()*width);
-                int startY = (int) (Math.random()*height);
-                newStart = new Cell(startX, startY);
-            } while(maze.contains(newStart));
-            System.out.println("New Starting Point: " + newStart.x + "," + newStart.y);
+//            Cell newStart = null;
+//            do {
+//                int startX = (int) (Math.random()*width);
+//                int startY = (int) (Math.random()*height);
+//                newStart = new Cell(startX, startY);
+//            } while(maze.contains(newStart));
+            Cell newStart = unused.remove((int)(Math.random()*unused.size()));
+//            System.out.println("New Starting Point: " + newStart.x + "," + newStart.y);
             path.add(newStart);
         } else {
             //Get the top of the stack
@@ -131,6 +139,7 @@ public class Maze {
                         });
                 path.pop(); //Remove the last cell from the stack
                 maze.addAll(path); //Add all the entires in the path to the maze
+                unused.removeAll(path);
                 path.clear();
             }
             
