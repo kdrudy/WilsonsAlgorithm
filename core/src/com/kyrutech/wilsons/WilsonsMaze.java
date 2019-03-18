@@ -13,24 +13,23 @@ import java.util.Stack;
  *
  * @author kylerudy
  */
-public class Maze {
-    List<Cell> maze = new ArrayList<>();
+public class WilsonsMaze extends AbstractMaze {
     List<Cell> unused = new ArrayList<>();
-    
-    Stack<Cell> path = new Stack<>();
+
     int width, height;
     
-    public Maze(int width, int height) {
+    public WilsonsMaze(int width, int height) {
         this.width = width;
         this.height = height;
         //Initialize grid
         
         //Set initial maze point
-        int initialX = (int) (Math.random()*width);
-        int initialY = (int) (Math.random()*height);
-        Cell initial = new Cell(initialX, initialY);
+//        int initialX = (int) (Math.random()*width);
+//        int initialY = (int) (Math.random()*height);
+//        Cell initial = new Cell(initialX, initialY);
+        Cell initial = new Cell(0,0);
         maze.add(initial);
-//        System.out.println("Initial Maze Point: " + initial.x + "," + initial.y);
+//        System.out.println("Initial WilsonsMaze Point: " + initial.x + "," + initial.y);
         for(int x = 0;x<width;x++) {
             for(int y = 0;y<height;y++) {
                 unused.add(new Cell(x, y));
@@ -38,11 +37,13 @@ public class Maze {
         }
         unused.remove(initial);
     }
-    
+
+    @Override
     public boolean isComplete() {
         return maze.size() == width*height;
     }
-    
+
+    @Override
     public void next() {
         //When empty, choose a new starting point to draw from that's not in the maze
         if(path.isEmpty()) {
@@ -52,8 +53,9 @@ public class Maze {
 //                int startY = (int) (Math.random()*height);
 //                newStart = new Cell(startX, startY);
 //            } while(maze.contains(newStart));
-            Cell newStart = unused.remove((int)(Math.random()*unused.size()));
+//            Cell newStart = unused.remove((int)(Math.random()*unused.size()));
 //            System.out.println("New Starting Point: " + newStart.x + "," + newStart.y);
+            Cell newStart = unused.remove(0);
             path.add(newStart);
         } else {
             //Get the top of the stack

@@ -9,17 +9,22 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class WilsonsAlgorithm extends ApplicationAdapter {
+public class MainMazeApp extends ApplicationAdapter {
 
     SpriteBatch batch;
     int mazeWidth = 20;
     int mazeHeight = 20;
-    Maze maze = new Maze(mazeWidth, mazeHeight);
+    AbstractMaze maze = new PrimsMaze(mazeWidth, mazeHeight);
     Texture tex;
 
     Pixmap pixmap;
     int cellSize = 2;
     int cellPadding = 1;
+    
+    float timer = 0.0f;
+    
+//    float overallTime = 0.0f;
+//    int timeGenerated = 0;
 
     @Override
     public void create() {
@@ -32,6 +37,15 @@ public class WilsonsAlgorithm extends ApplicationAdapter {
         if (!maze.isComplete()) {
             maze.next();
             tex = new Texture(generatePixmap());
+            timer = 0;
+//            overallTime += Gdx.graphics.getDeltaTime();
+        } else {
+            timer += Gdx.graphics.getDeltaTime();
+            if(timer > 5) {
+                maze = new PrimsMaze(mazeWidth, mazeHeight);
+//                timeGenerated++;
+//                System.out.println("Average for " + timeGenerated + " mazes : " + (overallTime/timeGenerated) +"s");
+            }
         }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
