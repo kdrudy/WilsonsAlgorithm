@@ -14,7 +14,7 @@ public class MainMazeApp extends ApplicationAdapter {
     SpriteBatch batch;
     int mazeWidth = 20;
     int mazeHeight = 20;
-    AbstractMaze maze = new PrimsMaze(mazeWidth, mazeHeight);
+    AbstractMaze maze;
     Texture tex;
 
     Pixmap pixmap;
@@ -22,14 +22,13 @@ public class MainMazeApp extends ApplicationAdapter {
     int cellPadding = 1;
     
     float timer = 0.0f;
-    
-//    float overallTime = 0.0f;
-//    int timeGenerated = 0;
+
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         pixmap = new Pixmap(mazeWidth*cellSize*(cellPadding*2), mazeHeight*cellSize*(cellPadding*2), Format.RGBA8888);
+        maze = new WilsonsMaze(mazeWidth, mazeHeight);
     }
 
     @Override
@@ -38,20 +37,16 @@ public class MainMazeApp extends ApplicationAdapter {
             maze.next();
             tex = new Texture(generatePixmap());
             timer = 0;
-//            overallTime += Gdx.graphics.getDeltaTime();
         } else {
             timer += Gdx.graphics.getDeltaTime();
             if(timer > 5) {
-                maze = new PrimsMaze(mazeWidth, mazeHeight);
-//                timeGenerated++;
-//                System.out.println("Average for " + timeGenerated + " mazes : " + (overallTime/timeGenerated) +"s");
+                maze = new WilsonsMaze(mazeWidth, mazeHeight);
             }
         }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         batch.draw(tex, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
         batch.end();
     }
 

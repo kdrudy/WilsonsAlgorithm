@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kyrutech.wilsons;
 
 import java.util.ArrayList;
@@ -21,20 +16,19 @@ public class WilsonsMaze extends AbstractMaze {
     public WilsonsMaze(int width, int height) {
         this.width = width;
         this.height = height;
-        //Initialize grid
         
         //Set initial maze point
-//        int initialX = (int) (Math.random()*width);
-//        int initialY = (int) (Math.random()*height);
-//        Cell initial = new Cell(initialX, initialY);
         Cell initial = new Cell(0,0);
         maze.add(initial);
-//        System.out.println("Initial WilsonsMaze Point: " + initial.x + "," + initial.y);
+
+        //Initialize the grid
         for(int x = 0;x<width;x++) {
             for(int y = 0;y<height;y++) {
                 unused.add(new Cell(x, y));
             }
         }
+
+        //Remove initial maze point
         unused.remove(initial);
     }
 
@@ -47,14 +41,6 @@ public class WilsonsMaze extends AbstractMaze {
     public void next() {
         //When empty, choose a new starting point to draw from that's not in the maze
         if(path.isEmpty()) {
-//            Cell newStart = null;
-//            do {
-//                int startX = (int) (Math.random()*width);
-//                int startY = (int) (Math.random()*height);
-//                newStart = new Cell(startX, startY);
-//            } while(maze.contains(newStart));
-//            Cell newStart = unused.remove((int)(Math.random()*unused.size()));
-//            System.out.println("New Starting Point: " + newStart.x + "," + newStart.y);
             Cell newStart = unused.remove(0);
             path.add(newStart);
         } else {
@@ -150,22 +136,20 @@ public class WilsonsMaze extends AbstractMaze {
     
     private void fixPathways() {
         Cell lastCell = path.peek();
-        if(path.size() > 1) {
-            Cell nextLastCell = path.elementAt(path.size()-2);
-            if(lastCell.north) {
+        if (path.size() > 1) {
+            Cell nextLastCell = path.elementAt(path.size() - 2);
+            if (lastCell.north) {
                 nextLastCell.south = false;
             }
-            if(lastCell.south) {
+            if (lastCell.south) {
                 nextLastCell.north = false;
             }
-            if(lastCell.east) {
+            if (lastCell.east) {
                 nextLastCell.west = false;
             }
-            if(lastCell.west) {
+            if (lastCell.west) {
                 nextLastCell.east = false;
             }
         }
     }
-    
-    
 }

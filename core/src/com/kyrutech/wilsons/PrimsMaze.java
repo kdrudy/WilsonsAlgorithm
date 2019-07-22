@@ -28,7 +28,6 @@ public class PrimsMaze extends AbstractMaze {
             Collections.shuffle(path);
             currentCell = path.remove(0);
 
-
             //Find visited cells adjacent to new currentCell
             List<Cell> adjacent = getAdjacentVisitedCells();
 
